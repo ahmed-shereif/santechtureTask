@@ -44,7 +44,9 @@
         <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <textarea pInputTextarea [(ngModel)]="posts.body"></textarea>
+              <textarea pInputTextarea [(ngModel)]="posts.body" required #body="ngModel"></textarea>
+              <div [hidden]="body.valid " class="alert alert-danger" class="errormsg">Body is required</div>
+
             </ng-template>
             <ng-template pTemplate="output">
               {{ posts.body }}

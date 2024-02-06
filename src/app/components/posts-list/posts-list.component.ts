@@ -30,6 +30,7 @@ export class PostsListComponent {
   public loading: boolean = false;
   public selectedPost!: Post;
   @ViewChild('title') title: any;
+  @ViewChild('body') body: any;
   constructor(
     public _PostsService: PostsService,
     private messageService: MessageService,
@@ -62,7 +63,7 @@ export class PostsListComponent {
 
   onRowEditSave(post: Post) {
 
-    if (this.title.valid) {
+    if (this.title.valid&&this.body.valid) {
 
       this._PostsService.editRow(post.id, post).subscribe({
         next: (v) => this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Post is updated' }),
