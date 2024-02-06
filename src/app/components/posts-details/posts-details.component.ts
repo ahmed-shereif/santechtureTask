@@ -1,14 +1,15 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { Post } from '../../models/posts';
 import { PostDetails } from '../../models/postDetails';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-posts-details',
   standalone: true,
-  imports: [CardModule, HttpClientModule,CommonModule],
+  imports: [CardModule, HttpClientModule,CommonModule,RouterModule, ButtonModule],
   providers: [HttpClient],
 
   templateUrl: './posts-details.component.html',

@@ -1,12 +1,22 @@
-<p-card *ngFor="let item of postDetails" [style]="{ width: '60%',margin:'auto',marginBottom:'10px' }">
-    <ng-template pTemplate="header">
-        Name: {{item.name}}
-    </ng-template>
+<button pButton pRipple type="button"  ><a [routerLink]="['/']"  class="btn">Back</a></button>
+<p-card *ngFor="let item of postDetails" class="card">
+    
+        <span class="bold">
+            Name:
+        </span>
+        {{item.name}}
+    
     <p>
-        body : {{item.body}}
+        <span class="bold">
+            body :
+        </span>
+        {{item.body}}
     </p>
     <p>
-        Email :{{item.email}}
+        <span class="bold">
+            Email:
+        </span>
+        {{item.email}}
     </p>
 
 </p-card>

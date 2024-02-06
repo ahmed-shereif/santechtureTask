@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, importProvidersFrom } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
@@ -13,12 +13,14 @@ import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { PostsService } from '../../service/posts.service';
 import { Post } from '../../models/posts';
+import { MessageModule } from 'primeng/message';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-posts-list',
   standalone: true,
-  imports: [RouterOutlet, ReactiveFormsModule, FormsModule, TableModule, HttpClientModule, InputTextModule, InputTextareaModule, CommonModule, ButtonModule, ToastModule],
-  providers: [PostsService, HttpClient, MessageService],
+  imports: [RouterOutlet, ReactiveFormsModule, FormsModule, TableModule, HttpClientModule, InputTextModule, InputTextareaModule, CommonModule, ButtonModule, MessageModule, ToastModule],
+  providers: [PostsService, HttpClient, MessageService,],
   templateUrl: './posts-list.component.html',
   styleUrl: './posts-list.component.scss'
 })
@@ -39,10 +41,16 @@ export class PostsListComponent {
   }
   loadPosts(event: TableLazyLoadEvent) {
     this.loading = true;
-    this._PostsService.getAllPostsPaginated(event.first, event.rows).subscribe((data: Post[]) => {
-      this.posts = data;
-      this.loading = false;
-    })
+    this._PostsService.getAllPostsPaginated(event.first, event.rows).subscribe(
+      {
+        next: (data: Post[]) => {
+          this.posts = data;
+          this.loading = false;
+        },
+        error: (e) => this.messageService.add({ severity: 'error', summary: 'Error occured', detail: `${e}` }),
+        complete: () => console.info('complete')
+      }
+    )
 
   }
 
@@ -53,14 +61,13 @@ export class PostsListComponent {
 
     this._PostsService.editRow(post.id, post).subscribe({
       next: (v) => this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Post is updated' }),
-      error: (e) => console.error(e),
+      error: (e) => this.messageService.add({ severity: 'error', summary: 'Error occured', detail: `${e}` }),
       complete: () => console.info('complete')
     })
 
   }
 
   onRowEditCancel(post: Post, index: number) {
-
   }
 
 
