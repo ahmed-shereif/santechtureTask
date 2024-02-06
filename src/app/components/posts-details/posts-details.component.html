@@ -1,0 +1,12 @@
+<p-card *ngFor="let item of postDetails" [style]="{ width: '60%',margin:'auto',marginBottom:'10px' }">
+    <ng-template pTemplate="header">
+        Name: {{item.name}}
+    </ng-template>
+    <p>
+        body : {{item.body}}
+    </p>
+    <p>
+        Email :{{item.email}}
+    </p>
+
+</p-card>
