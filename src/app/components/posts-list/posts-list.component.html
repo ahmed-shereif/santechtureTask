@@ -1,62 +1,69 @@
 <div class="card">
-    <p-table selectionMode="single"  (onRowSelect)="onRowSelect($event)"   [(selection)]="selectedPost" [value]="posts"
-      [paginator]="true" [rows]="5" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }" [lazy]="true"
-      (onLazyLoad)="loadPosts($event)" [totalRecords]="totalRecords" [loading]="loading" styleClass="p-datatable-striped"
-      editMode="row">
-      <ng-template pTemplate="header">
-        <tr  > 
-          <th style="width:25%">id</th>
-          <th style="width:25%">title</th>
-          <th style="width:25%">body</th>
-          <th style="width:25%">
-            <span icon="pi pi-pencil">editing</span>
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-posts let-editing="editing" let-ri="rowIndex">
-        <tr [pEditableRow]="posts" [pSelectableRow]="posts">
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="posts.id" disabled="true" />
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ posts.id }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="posts.title" required />
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ posts.title }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <textarea pInputTextarea [(ngModel)]="posts.body"></textarea>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ posts.body }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>
-            <div class="flex align-items-center justify-content-center gap-2">
-              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                (click)="onRowEditInit(posts)" class="p-button-rounded p-button-text"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                (click)="onRowEditSave(posts)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                (click)="onRowEditCancel(posts, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-  <p-toast></p-toast>
+  <p-table selectionMode="single" (onRowSelect)="onRowSelect($event)" [(selection)]="selectedPost" [value]="posts"
+    [paginator]="true" [rows]="5" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }" [lazy]="true"
+    (onLazyLoad)="loadPosts($event)" [totalRecords]="totalRecords" [loading]="loading" styleClass="p-datatable-striped"
+    editMode="row">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:25%">id</th>
+        <th style="width:25%">title</th>
+        <th style="width:25%">body</th>
+        <th style="width:25%">
+          <span icon="pi pi-pencil">editing</span>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-posts let-editing="editing" let-ri="rowIndex">
+      
+      <!-- ... all of the form ... -->
+      
+      
+      <tr [pEditableRow]="posts" [pSelectableRow]="posts">
+
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="posts.id" disabled="true" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ posts.id }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="posts.title" required #title="ngModel" />
+              <div [hidden]="title.valid " class="alert alert-danger" class="errormsg">Title is required</div>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ posts.title }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <textarea pInputTextarea [(ngModel)]="posts.body"></textarea>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ posts.body }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <div class="flex align-items-center justify-content-center gap-2">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+              (click)="onRowEditInit(posts)" class="p-button-rounded p-button-text"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+              (click)="onRowEditSave(posts)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+              (click)="onRowEditCancel(posts, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+          </div>
+        </td>
+     
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-toast></p-toast>

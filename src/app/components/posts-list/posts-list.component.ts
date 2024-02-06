@@ -1,4 +1,4 @@
-import { Component, importProvidersFrom } from '@angular/core';
+import { Component, ViewChild, importProvidersFrom } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
@@ -29,7 +29,7 @@ export class PostsListComponent {
   public totalRecords: number = 100;
   public loading: boolean = false;
   public selectedPost!: Post;
-
+  @ViewChild('title') title: any;
   constructor(
     public _PostsService: PostsService,
     private messageService: MessageService,
@@ -53,25 +53,38 @@ export class PostsListComponent {
     )
 
   }
+  AfterViewInit() {
+
+  }
 
   onRowEditInit(post: Post) {
   }
 
   onRowEditSave(post: Post) {
 
-    this._PostsService.editRow(post.id, post).subscribe({
-      next: (v) => this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Post is updated' }),
-      error: (e) => this.messageService.add({ severity: 'error', summary: 'Error occured', detail: `${e}` }),
-      complete: () => console.info('complete')
-    })
+    if (this.title.valid) {
+
+      this._PostsService.editRow(post.id, post).subscribe({
+        next: (v) => this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Post is updated' }),
+        error: (e) => this.messageService.add({ severity: 'error', summary: 'Error occured', detail: `${e}` }),
+        complete: () => console.info('complete')
+      })
+    }
+    else {
+      this.messageService.add({ severity: 'error', summary: 'error', detail: 'check validation error then save' })
+    }
 
   }
 
   onRowEditCancel(post: Post, index: number) {
+
   }
 
 
   onRowSelect(event: any) {
     this.router.navigate(['post', event.data.id]);
+  }
+  onSubmit() {
+
   }
 }
