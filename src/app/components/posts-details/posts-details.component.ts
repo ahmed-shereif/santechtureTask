@@ -25,7 +25,6 @@ export class PostsDetailsComponent {
       this.http.get<PostDetails[]>(` https://jsonplaceholder.typicode.com/comments?postId=${id}`).subscribe({
         next: (data: PostDetails[]) => {
           this.postDetails = data
-          console.log('🤱',   this.postDetails )
         },
         error: (e) => console.error(e),
         complete: () => console.info('complete')
